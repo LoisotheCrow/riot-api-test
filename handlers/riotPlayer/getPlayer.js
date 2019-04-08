@@ -1,7 +1,8 @@
 const logger = require('../../logger');
+const buildResponse = require('../../utils/buildRes');
 const getSummonerByName = require('../../RiotAPI/v4/summoner/byName');
 
-const getUser = (req, res, next) => {
+const byName = (req, res, next) => {
   const { query: { name }, res: { customError } } = req;
   if (customError) {
     next();
@@ -14,8 +15,18 @@ const getUser = (req, res, next) => {
   }
   try {
     const summonerInfo = getSummonerByName(name);
+    if (summonerInfo) {
+      res.status(200).json(buildResponse(summonerInfo));
+    } else {
+      res.customError = { code: 500, message: 'Error accessing RIOT API.' };
+      next();
+    }
   } catch (err) {
     res.customError = { code: 500, message: 'Error accessing RIOT API.' };
     next();
   }
+};
+
+module.exports = {
+  byName,
 };

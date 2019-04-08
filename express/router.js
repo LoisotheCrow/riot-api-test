@@ -17,8 +17,8 @@ const getRouter = () => {
 
   const _assembleRoutes = routes => {
     routes.forEach(route => {
-      const { url, method, handler, noAuth } = route;
-      if (noAuth) {
+      const { url, method, handler, auth } = route;
+      if (!auth) {
         router[method](url, [handler]);
       } else {
         router[method](url, [authMiddleware, handler]);
