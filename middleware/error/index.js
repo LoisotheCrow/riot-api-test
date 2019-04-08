@@ -10,7 +10,6 @@ const handleError = (req, res, next) => {
   const { code, message } = customError;
   logger.log('error', `Responding with error: code ${code} and message '${message}'.`);
   res.status(code).json(buildResponse(message, true));
-  next();
 };
 
 module.exports = handleError;
