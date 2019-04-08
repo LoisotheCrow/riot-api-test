@@ -19,7 +19,7 @@ const getRouter = () => {
   const _assembleRoutes = (routes, appendix) => {
     routes.forEach(route => {
       const { url, method = 'get', handler, auth } = route;
-      const fullUrl = `/${appendix}/url`;
+      const fullUrl = `/${appendix}/${url}`;
       if (!auth) {
         router[method](fullUrl, [handler]);
       } else {

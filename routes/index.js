@@ -3,9 +3,9 @@ const { bySummonerId: getHistoryById } = require('../handlers/riotPlayer/getHist
 
 module.exports = {
   summoners: [
-    { url: '/byName', handler: getPlayerByName },
+    { url: 'byName', handler: getPlayerByName },
   ],
   history: [
-    { url: '/byId', handler: getHistoryById },
+    { url: 'byId', handler: getHistoryById },
   ],
 };
