@@ -1,4 +1,5 @@
 const express = require('express');
+const logger = require('../logger');
 const routeTree = require('../routes');
 const authMiddleware = require('../middleware/auth');
 const beforeMiddleware = require('../middleware/before');
@@ -28,6 +29,7 @@ const getRouter = () => {
 
   const _composeRoutes = () => {
     Object.keys(routeTree).forEach(key => {
+      logger.log('build', `Assembling route structure for ${key}.`);
       _assembleRoutes(routeTree[key]);
     });
   };
