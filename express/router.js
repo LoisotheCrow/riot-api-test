@@ -11,13 +11,17 @@ const getRouter = () => {
     router.use(beforeMiddleware);
   };
 
+  const _addErrorHandler = () => {
+    router.use(errorMiddleware);
+  };
+
   const _assembleRoutes = routes => {
     routes.forEach(route => {
       const { url, method, handler, noAuth } = route;
       if (noAuth) {
-        router[method](url, [handler, errorMiddleware]);
+        router[method](url, [handler]);
       } else {
-        router[method](url, [authMiddleware, handler, errorMiddleware]);
+        router[method](url, [authMiddleware, handler]);
       }
     });
   };
@@ -30,6 +34,7 @@ const getRouter = () => {
 
   _addMiddleware();
   _composeRoutes();
+  _addErrorHandler();
 
   return router;
 }
