@@ -1,26 +1,26 @@
 const buildResponse = require('../../utils/buildRes');
 const getHistoryById = require('../../RiotAPI/v4/match/historyById');
 
-const _validateBoundaries = ({ startI, endI, startT, endT }) => {
-  if (!startT && !endT) {
-    if (!startI && !endI) {
+const _validateBoundaries = ({ startIndex, endIndex, startTime, endTime }) => {
+  if (!startTime && !endTime) {
+    if (!startIndex && !endIndex) {
       return true;
     } else {
-      if (startI > endI) {
+      if (startIndex > endIndex) {
         return false;
       }
-      return !(endI - startI > 100);
+      return !(endIndex - startIndex > 100);
     }
   } else {
-    if (startT > endT) {
+    if (startTime > endTime) {
       return false;
     }
-    return !(endT && (endT - startT >= 604800000));
+    return !(endTime && (endTime - startTime >= 604800000));
   }
 };
 
 const bySummonerId = async (req, res, next) => {
-  const { query: { summonerId, startI, endI, startT, endT }, res: { customError } } = req;
+  const { query: { summonerId, startIndex, endIndex, startTime, endTime }, res: { customError } } = req;
   if (customError) {
     next();
     return;
@@ -30,7 +30,7 @@ const bySummonerId = async (req, res, next) => {
     next();
     return;
   }
-  const boundaries = { startI, startT, endI, endT };
+  const boundaries = { startIndex, startTime, endIndex, endTime };
   const validBoundaries = _validateBoundaries(boundaries);
   if (!validBoundaries) {
     res.customError = { code: 400, message: 'Invalid boundaries.' };
