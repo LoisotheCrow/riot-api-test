@@ -7,6 +7,12 @@ const { entryPoint, region, APIKey } = config;
 const baseUrl = `https://${region}.${entryPoint}`;
 
 const requestAPI = async (url, method = 'get', requestData) => {
+  const gotData = requestData && !isEmpty(requestData);
+
+  if (gotData) {
+    logger.log('API', `Prepared request data: ${JSON.stringify(requestData)}`);
+  }
+
   const _buildAPIResponse = (data, isErr = false, errMessage) => ({
     status: isErr ? 1 : 0,
     data,
@@ -20,7 +26,7 @@ const requestAPI = async (url, method = 'get', requestData) => {
       method: 'get',
       url: _buildUrl(),
     };
-    if (requestData && !isEmpty(requestData)) {
+    if (gotData) {
       requestConfig.data = requestData;
     }
     const { data } = await axios(requestConfig);
