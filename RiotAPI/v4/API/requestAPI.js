@@ -1,4 +1,5 @@
 const axios = require('axios');
+const logger = require('../../../logger');
 const isEmpty = require('lodash/isEmpty');
 const config = require('../../../configs/APIConfig');
 
@@ -22,7 +23,9 @@ const requestAPI = async (url, method, requestData) => {
     if (requestData && !isEmpty(requestData)) {
       requestConfig.data = requestData;
     }
-    return axios(requestConfig);
+    const { data } = await axios(requestConfig);
+    logger.log('API', `Got API response: ${JSON.stringify(data)}`);
+    return data;
   };
 
   if (method === 'get') {

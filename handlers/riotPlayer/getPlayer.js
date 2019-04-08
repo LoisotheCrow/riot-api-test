@@ -2,7 +2,7 @@ const logger = require('../../logger');
 const buildResponse = require('../../utils/buildRes');
 const getSummonerByName = require('../../RiotAPI/v4/summoner/byName');
 
-const byName = (req, res, next) => {
+const byName = async (req, res, next) => {
   const { query: { name }, res: { customError } } = req;
   if (customError) {
     next();
@@ -14,7 +14,7 @@ const byName = (req, res, next) => {
     return;
   }
   try {
-    const summonerInfo = getSummonerByName(name);
+    const summonerInfo = await getSummonerByName(name);
     if (summonerInfo) {
       res.status(200).json(buildResponse(summonerInfo));
     } else {
