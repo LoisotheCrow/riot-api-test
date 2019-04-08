@@ -1,6 +1,3 @@
-module.exports = (msg, isErr = false) => ({
-  status: isErr ? 1 : 0,
-  data: {
-    message: msg,
-  },
-});
+const buildRes = require('./buildRes');
+
+module.exports = (msg, isErr = false) => buildRes({ message: msg }, isErr);
