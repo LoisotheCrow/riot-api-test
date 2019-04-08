@@ -1,4 +1,5 @@
 module.exports = {
-  APIKey: 'RGAPI-0799381b-728d-460c-8b76-2411f637bd3a',
+  entryPoint: 'api.riotgames.com/lol',
+  APIKey: 'RGAPI-3f3ca381-7bbf-4c37-821d-20a2d2f2c26c',
   region: 'RU',
 };
