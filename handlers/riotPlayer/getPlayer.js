@@ -1,4 +1,3 @@
-const logger = require('../../logger');
 const buildResponse = require('../../utils/buildRes');
 const getSummonerByName = require('../../RiotAPI/v4/summoner/byName');
 
