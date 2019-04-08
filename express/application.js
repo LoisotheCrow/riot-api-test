@@ -36,6 +36,8 @@ const getApplication = () => {
   _connectRoutes();
   _add404Handler();
   _addIndex();
+
+  return app;
 };
 
 module.exports = {
