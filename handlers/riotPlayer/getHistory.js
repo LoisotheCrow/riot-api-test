@@ -1,3 +1,4 @@
+const { defaultSeason, defaultQueue } = require('../../configs/APIConfig');
 const buildResponse = require('../../utils/buildRes');
 const getHistoryById = require('../../RiotAPI/v4/match/historyById');
 
@@ -20,7 +21,13 @@ const _validateBoundaries = ({ startIndex, endIndex, startTime, endTime }) => {
 };
 
 const bySummonerId = async (req, res, next) => {
-  const { query: { summonerId, startIndex, endIndex, startTime, endTime }, res: { customError } } = req;
+  const {
+    query: {
+      summonerId, startIndex, endIndex, startTime, endTime,
+      queue = defaultQueue, champion, season = defaultSeason,
+    },
+    res: { customError },
+  } = req;
   if (customError) {
     next();
     return;
@@ -37,10 +44,13 @@ const bySummonerId = async (req, res, next) => {
     next();
     return;
   }
-  const params = { summonerId };
+  const params = { summonerId, queue, season };
   Object.keys(boundaries).forEach(key => {
     params[key] = boundaries[key];
-  })
+  });
+  if (champion) {
+    params.champion = champion;
+  }
   try {
     const matchHistory = await getHistoryById(params);
     if (matchHistory) {
