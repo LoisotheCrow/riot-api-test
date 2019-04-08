@@ -16,13 +16,14 @@ const getRouter = () => {
     router.use(errorMiddleware);
   };
 
-  const _assembleRoutes = routes => {
+  const _assembleRoutes = (routes, appendix) => {
     routes.forEach(route => {
-      const { url, method, handler, auth } = route;
+      const { url, method = 'get', handler, auth } = route;
+      const fullUrl = `/${appendix}/url`;
       if (!auth) {
-        router[method](url, [handler]);
+        router[method](fullUrl, [handler]);
       } else {
-        router[method](url, [authMiddleware, handler]);
+        router[method](fullUrl, [authMiddleware, handler]);
       }
     });
   };
@@ -30,7 +31,7 @@ const getRouter = () => {
   const _composeRoutes = () => {
     Object.keys(routeTree).forEach(key => {
       logger.log('build', `Assembling route structure for ${key}.`);
-      _assembleRoutes(routeTree[key]);
+      _assembleRoutes(routeTree[key], key);
     });
   };
 
