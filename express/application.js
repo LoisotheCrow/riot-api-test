@@ -26,9 +26,16 @@ const getApplication = () => {
     app.use(handle404);
   };
 
+  const _addIndex = () => {
+    app.get('/', (req, res) => {
+      res.status(200).send('up');
+    });
+  }
+
   _addParsers();
   _connectRoutes();
   _add404Handler();
+  _addIndex();
 };
 
 module.exports = {
