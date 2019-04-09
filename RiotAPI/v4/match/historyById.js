@@ -8,7 +8,9 @@ const _buildParams = data => {
   }
   const { summonerId, ...rest } = data;
   Object.keys(rest).forEach(key => {
-    params[key] = data[key];
+    if (data[key]) {
+      params[key] = data[key];
+    }
   });
   return ['get', params];
 };

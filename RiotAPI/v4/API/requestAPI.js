@@ -19,15 +19,16 @@ const requestAPI = async (url, method = 'get', requestData) => {
     errMessage
   });
 
-  const _buildUrl = () => `${baseUrl}/${url}?api_key=${APIKey}`;
+  const _buildUrl = () => `${baseUrl}/${url}${method !== 'get' ? `?api_key=${APIKey}` : ''}`;
 
   const _getFromAPI = async () => {
     const requestConfig = {
       method: 'get',
       url: _buildUrl(),
+      params: { api_key: APIKey },
     };
     if (gotData) {
-      requestConfig.data = requestData;
+      requestConfig.params = { ...requestData, ...requestConfig.params };
     }
     const { data } = await axios(requestConfig);
     logger.log('API', `Got API response: ${JSON.stringify(data)}`);
